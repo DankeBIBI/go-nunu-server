@@ -1,12 +1,16 @@
 package service
 
 import (
-	"context"
+	"go-nunu-server/api"
 	"go-nunu-server/internal/repository"
+
+	"github.com/gin-gonic/gin"
 )
 
 type GoodsService interface {
-	FindAll(ctx context.Context) interface{}
+	FindAll() interface{}
+	FindByID(ctx *gin.Context) interface{}
+	CreateGoods(goods *api.CreateGoodsDto) interface{}
 }
 type goodsService struct {
 	goodsRepo repository.GoodsRepository
@@ -20,7 +24,22 @@ func NewGoodsService(service *Service, goodsRepo repository.GoodsRepository) Goo
 	}
 }
 
-func (g *goodsService) FindAll(ctx context.Context) interface{} {
-	goods := g.goodsRepo.FindAll(ctx)
+// 查询商品列表
+func (g *goodsService) FindAll() interface{} {
+	goods := g.goodsRepo.FindAll()
 	return goods
+}
+
+// 根据ID查询商品
+func (g *goodsService) FindByID(ctx *gin.Context) interface{} {
+	id := ctx.PostForm("id")
+	// 调用repository层的方法
+	goods := g.goodsRepo.FindByID(id)
+	return goods
+}
+
+// 创建商品
+func (g *goodsService) CreateGoods(goods *api.CreateGoodsDto) interface{} {
+	res := g.goodsRepo.CreateGoods(goods)
+	return res
 }

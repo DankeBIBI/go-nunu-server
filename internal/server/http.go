@@ -51,8 +51,10 @@ func NewHTTPServer(
 			":)": "Thank you for using nunu!",
 		})
 	})
-	api := s.Group("/api")
-	router.AssignGoodsRouter(api, goodsHandler)
+	// ---------------【商品】 Start-----------------------||
+	goods := s.Group("/goods")
+	router.AssignGoodsRouter(goods, goodsHandler)
+	// ---------------【商品】 End-------------------------||
 	// assignrouter.
 	// v1 := s.Group("/v1")
 	// {

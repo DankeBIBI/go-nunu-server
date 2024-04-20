@@ -5,8 +5,9 @@ import (
 	v1 "go-nunu-server/api/v1"
 	"go-nunu-server/internal/model"
 	"go-nunu-server/internal/repository"
-	"golang.org/x/crypto/bcrypt"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
