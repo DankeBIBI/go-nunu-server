@@ -11,4 +11,6 @@ func AssignGoodsRouter(route *gin.RouterGroup, g *handler.GoodsHandler) {
 	route.GET("/getGoodsList", g.FindAllGoods)
 	route.POST("/goodsDetails", g.FindByID)
 	route.POST("/createGoods", g.CreateGoods)
+	route.GET("/deleteGoods", g.DeleteGoods)
+	route.POST("/updateGoods", g.UpdateGoods)
 }

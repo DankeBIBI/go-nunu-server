@@ -5,13 +5,13 @@ import (
 )
 
 type Goods struct {
-	Id            uint      `json:"id" gorm:"primarykey"`
-	Appid         uint      `json:"appid" gorm:"not null"`
+	Id            int       `json:"id" gorm:"primarykey"`
+	Appid         int       `json:"appid" gorm:"not null"`
 	Name          string    `json:"name" gorm:"not null"`
 	Mini_name     string    `json:"mini_name"`
 	Price         float32   `json:"price" gorm:"not null"`
 	Source_price  float32   `json:"source_price"`
-	Stock         string    `json:"stock"`
+	Stock         int       `json:"stock"`
 	Pic           string    `json:"pic"`
 	Pic_list      string    `json:"pic_list"`
 	Quota_num     string    `json:"quota_num"`

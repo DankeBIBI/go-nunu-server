@@ -3,9 +3,9 @@ package handler
 import (
 	"go-nunu-server/api"
 	v1 "go-nunu-server/api/v1"
+	"go-nunu-server/internal/model"
 	"go-nunu-server/internal/repository"
 	"go-nunu-server/internal/service"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,14 +30,37 @@ func (h *GoodsHandler) FindAllGoods(ctx *gin.Context) {
 }
 func (h *GoodsHandler) FindByID(ctx *gin.Context) {
 	ref := h.goodsService.FindByID(ctx)
-	v1.HandleSuccess(ctx, ref)
+	api.Success(ctx, ref)
 }
 func (h *GoodsHandler) CreateGoods(ctx *gin.Context) {
 	var req api.CreateGoodsDto
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		v1.HandleError(ctx, http.StatusBadRequest, v1.ErrBadRequest, nil)
+		api.Fail(ctx, err)
 		return
 	}
 	res := h.goodsService.CreateGoods(&req)
-	v1.HandleSuccess(ctx, res)
+	api.Success(ctx, res, "创建成功"+ctx.PostForm("name"))
+}
+func (h *GoodsHandler) DeleteGoods(ctx *gin.Context) {
+	id := ctx.Query("id")
+	res, err := h.goodsService.DeleteGoods(id)
+	if err != nil {
+		api.Fail(ctx, err, "删除失败："+id)
+		return
+	}
+	api.Success(ctx, res, "删除成功")
+}
+func (h *GoodsHandler) UpdateGoods(ctx *gin.Context) {
+	var req model.Goods
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		api.Fail(ctx, err, "修改失败-数据绑定")
+		return
+	}
+	res, err := h.goodsService.UpdateGoods(&req)
+	if err != nil {
+		api.Fail(ctx, err, "修改失败")
+		return
+	}
+	api.Success(ctx, res, "修改成功")
+
 }
