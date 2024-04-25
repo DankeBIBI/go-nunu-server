@@ -22,6 +22,8 @@ func NewHTTPServer(
 	jwt *jwt.JWT,
 	userHandler *handler.UserHandler,
 	goodsHandler *handler.GoodsHandler,
+	routeHandler *handler.RouteHandler,
+	userRouteHandler *handler.UserRouteHandler,
 ) *http.Server {
 	gin.SetMode(gin.DebugMode)
 	s := http.NewServer(
@@ -55,6 +57,15 @@ func NewHTTPServer(
 	goods := s.Group("/goods")
 	router.AssignGoodsRouter(goods, goodsHandler)
 	// ---------------【商品】 End-------------------------||
+	// ---------------【路由】 Start-----------------------||
+	route := s.Group("/route")
+	router.AssignRouteRouter(route, routeHandler, userRouteHandler)
+	// ---------------【路由】 End-------------------------||
+	// ---------------【用户】 Start-----------------------||
+	user := s.Group("/user")
+	router.AssignUserRouter(user, userHandler)
+
+	// ---------------【用户】 End-------------------------||
 	// assignrouter.
 	// v1 := s.Group("/v1")
 	// {

@@ -52,15 +52,15 @@ func (h *GoodsHandler) DeleteGoods(ctx *gin.Context) {
 }
 func (h *GoodsHandler) UpdateGoods(ctx *gin.Context) {
 	var req model.Goods
-	if err := ctx.ShouldBindJSON(&req); err != nil {
-		api.Fail(ctx, err, "修改失败-数据绑定")
+	if err := ctx.ShouldBind(&req); err != nil {
+		api.Fail(ctx, err, "数据绑定失败")
 		return
 	}
+	req.Appid = ctx.GetHeader("Appid")
 	res, err := h.goodsService.UpdateGoods(&req)
 	if err != nil {
 		api.Fail(ctx, err, "修改失败")
 		return
 	}
 	api.Success(ctx, res, "修改成功")
-
 }

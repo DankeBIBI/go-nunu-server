@@ -1,7 +1,7 @@
 package service
 
 import (
-	"fmt"
+	"errors"
 	"go-nunu-server/api"
 	"go-nunu-server/internal/model"
 	"go-nunu-server/internal/repository"
@@ -85,12 +85,15 @@ func (g *goodsService) UpdateGoods(goods *model.Goods) (interface{}, error) {
 		Sales:         goods.Sales,
 		Source_price:  goods.Source_price,
 	}
+	if goods.Id < 1 {
+		return "id不能为空", errors.New("id不能为空")
+	}
 	if err := g.goodsRepo.GetDB().Where("id = ?", goods.Id).First(goods).Error; err != nil {
-		return "查找失败", err
+		// return "查找失败", err
+		return goods, err
 	}
 	if err := g.goodsRepo.GetDB().Save(newGoods).Error; err != nil {
 		return "更新失败", err
 	}
-	fmt.Println(newGoods)
-	return "更新成功", nil
+	return newGoods, nil
 }

@@ -8,6 +8,10 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
+type AppConfig struct {
+	Appid int `json:"appid"`
+}
+
 var (
 	NotFound = func(msg string) string { return "数据未找到：" + msg }
 )

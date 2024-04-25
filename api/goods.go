@@ -1,8 +1,5 @@
 package api
 
-type AppConfig struct {
-	Appid int `json:"appid"`
-}
 type CreateGoodsDto struct {
 	AppConfig
 	Name         string `json:"name" `
