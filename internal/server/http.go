@@ -25,6 +25,7 @@ func NewHTTPServer(
 	routeHandler *handler.RouteHandler,
 	userRouteHandler *handler.UserRouteHandler,
 	userInfoHandler *handler.UserInfoHandler,
+	appHandler *handler.AppHandler,
 ) *http.Server {
 	gin.SetMode(gin.DebugMode)
 	s := http.NewServer(
@@ -68,6 +69,9 @@ func NewHTTPServer(
 	wechat := s.Group("/weChat")
 	router.AssignWechatRouter(wechat, userInfoHandler)
 	// ---------------【用户】 End-------------------------||
+
+	app := s.Group("/app")
+	router.AssignAppRouter(app, appHandler)
 	// assignrouter.
 	// v1 := s.Group("/v1")
 	// {

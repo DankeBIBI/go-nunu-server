@@ -28,6 +28,7 @@ var repositorySet = wire.NewSet(
 	repository.NewRouteRepository,
 	repository.NewUserRouteRepository,
 	repository.NewUserInfoRepository,
+	repository.NewAppRepository,
 )
 
 var serviceSet = wire.NewSet(
@@ -37,6 +38,7 @@ var serviceSet = wire.NewSet(
 	service.NewRouteService,
 	service.NewUserRouteService,
 	service.NewUserInfoService,
+	service.NewAppService,
 )
 
 var handlerSet = wire.NewSet(
@@ -46,6 +48,7 @@ var handlerSet = wire.NewSet(
 	handler.NewRouteHandler,
 	handler.NewUserRouteHandler,
 	handler.NewUserInfoHandler,
+	handler.NewAppHandler,
 )
 
 var serverSet = wire.NewSet(

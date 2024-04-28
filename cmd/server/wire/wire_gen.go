@@ -45,7 +45,10 @@ func NewWire(viperViper *viper.Viper, logger *log.Logger) (*app.App, func(), err
 	userInfoRepository := repository.NewUserInfoRepository(repositoryRepository)
 	userInfoService := service.NewUserInfoService(serviceService, userInfoRepository)
 	userInfoHandler := handler.NewUserInfoHandler(handlerHandler, userInfoService)
-	httpServer := server.NewHTTPServer(logger, viperViper, jwtJWT, userHandler, goodsHandler, routeHandler, userRouteHandler, userInfoHandler)
+	appRepository := repository.NewAppRepository(repositoryRepository)
+	appService := service.NewAppService(serviceService, appRepository)
+	appHandler := handler.NewAppHandler(handlerHandler, appService)
+	httpServer := server.NewHTTPServer(logger, viperViper, jwtJWT, userHandler, goodsHandler, routeHandler, userRouteHandler, userInfoHandler, appHandler)
 	job := server.NewJob(logger)
 	appApp := newApp(httpServer, job)
 	return appApp, func() {
@@ -54,11 +57,11 @@ func NewWire(viperViper *viper.Viper, logger *log.Logger) (*app.App, func(), err
 
 // wire.go:
 
-var repositorySet = wire.NewSet(repository.NewDB, repository.NewRepository, repository.NewTransaction, repository.NewUserRepository, repository.NewGoodsRepository, repository.NewRouteRepository, repository.NewUserRouteRepository, repository.NewUserInfoRepository)
+var repositorySet = wire.NewSet(repository.NewDB, repository.NewRepository, repository.NewTransaction, repository.NewUserRepository, repository.NewGoodsRepository, repository.NewRouteRepository, repository.NewUserRouteRepository, repository.NewUserInfoRepository, repository.NewAppRepository)
 
-var serviceSet = wire.NewSet(service.NewService, service.NewUserService, service.NewGoodsService, service.NewRouteService, service.NewUserRouteService, service.NewUserInfoService)
+var serviceSet = wire.NewSet(service.NewService, service.NewUserService, service.NewGoodsService, service.NewRouteService, service.NewUserRouteService, service.NewUserInfoService, service.NewAppService)
 
-var handlerSet = wire.NewSet(handler.NewHandler, handler.NewUserHandler, handler.NewGoodsHandler, handler.NewRouteHandler, handler.NewUserRouteHandler, handler.NewUserInfoHandler)
+var handlerSet = wire.NewSet(handler.NewHandler, handler.NewUserHandler, handler.NewGoodsHandler, handler.NewRouteHandler, handler.NewUserRouteHandler, handler.NewUserInfoHandler, handler.NewAppHandler)
 
 var serverSet = wire.NewSet(server.NewHTTPServer, server.NewJob)
 
