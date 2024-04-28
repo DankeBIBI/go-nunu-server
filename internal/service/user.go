@@ -20,7 +20,8 @@ func NewUserService(service *Service, userRepository repository.UserRepository) 
 
 type userService struct {
 	*Service
-	userRepository repository.UserRepository
+	userRepository     repository.UserRepository
+	userInfoRepository repository.UserInfoRepository
 }
 
 // 获取用户列表
