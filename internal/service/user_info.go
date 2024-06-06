@@ -32,6 +32,16 @@ type userInfoService struct {
 func (s *userInfoService) GetUserInfo(ctx context.Context, id int64) (*model.UserInfo, error) {
 	return s.userInfoRepository.GetUserInfo(ctx, id)
 }
+func GetPhoneNumber(code string) {
+	// data := []byte(`{"name": "John", "age": 30}`)
+
+	// res, err := http.Post(
+	// 	//"http://example.com/api/v1/login",
+	// 	//"application/json",
+	// 	//ioutil.NopCloser(bytes.NewBufferString(data)),
+	// 	"POST https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=ACCESS_TOKEN", bytes.NewBuffer(data))
+
+}
 
 // 检测是否用微信登录过
 func (s *userInfoService) CheckWechatLogin(info *api.CheckWechatLogin) (interface{}, error) {
@@ -66,11 +76,11 @@ func (s *userInfoService) CheckWechatLogin(info *api.CheckWechatLogin) (interfac
 	}
 	var userInfo model.UserInfo
 	if err := s.userInfoRepository.GetDB().Where("openid = ?", data.Openid).First(&userInfo).Error; err != nil {
-		return "未注册", nil
+		return "未注册", err
 	}
 	var user model.User
 	if err := s.userInfoRepository.GetDB().Where("u_id = ?", userInfo.U_id).First(&user).Error; err != nil {
-		return "用户未注册", nil
+		return "用户未注册", err
 	}
 	return user, nil
 }
